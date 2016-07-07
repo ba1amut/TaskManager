@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/taskDate"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="New Text"/>
+
+    <TextView
+        android:id="@+id/taskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/taskDate"
+        android:layout_toLeftOf="@+id/btnEditTask"
+        android:layout_toStartOf="@+id/btnEditTask"
+        android:layout_toEndOf="@+id/taskDate" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/btnEditTask"
+        android:background="@android:drawable/ic_menu_edit"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/btnDeleteTask"
+        android:layout_toStartOf="@+id/btnDeleteTask" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/btnDeleteTask"
+        android:background="@android:drawable/ic_menu_delete"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
