@@ -2,30 +2,24 @@ package com.speedsumm.bu.sqldb;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-/**
- * Created by bu on 07.07.2016.
- */
+
 public class TaskDialog extends AppCompatDialogFragment{
     public interface TaskDialogListener{
-        public void onDialogPositiveClick(AppCompatDialogFragment dialog,String taskName,String taskDate);
-        public void onDialogNegativeClick(AppCompatDialogFragment dialog);
+         void onDialogPositiveClick(AppCompatDialogFragment dialog,String taskName);
+
     }
 
     TaskDialogListener mListener;
-    EditText taskName;
-    TextView taskDate;
-
+    int completed;
 
     @Override
     public void onAttach(Activity activity) {
@@ -44,30 +38,20 @@ public class TaskDialog extends AppCompatDialogFragment{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.task_dialog,null);
         final EditText taskName = (EditText)dialogView.findViewById(R.id.et_taskName);
-        TextView taskDate = (TextView) dialogView.findViewById(R.id.tv_taskDate);
-
 
         builder.setView(dialogView)
-                .setPositiveButton("хорошо", new DialogInterface.OnClickListener() {
+                .setPositiveButton("создать", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                        mListener.onDialogPositiveClick(TaskDialog.this,taskName.getText().toString(),"20160707");
-
+                        mListener.onDialogPositiveClick(TaskDialog.this,taskName.getText().toString());
                     }
                 })
-                .setNegativeButton("плохо", new DialogInterface.OnClickListener() {
+                .setNegativeButton("отмена", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mListener.onDialogNegativeClick(TaskDialog.this);
-
                     }
                 })
-                .setTitle("Введите параметры новой задачи");
-
-
-
+                .setTitle("Введите наименование новой задачи");
         return builder.create();
 
 

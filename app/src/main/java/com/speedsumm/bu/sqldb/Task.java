@@ -1,23 +1,20 @@
 package com.speedsumm.bu.sqldb;
 
-/**
- * Created by bu on 06.07.2016.
- */
 public class Task {
     int _id;
-    public int _dateTask;
+    public int _completed;
     public String _taskName;
 
     public Task() {}
 
-    public Task(int _id, int _dateTask, String _taskName) {
+    public Task(int _id, int _completed, String _taskName) {
         this._id = _id;
-        this._dateTask = _dateTask;
+        this._completed = _completed;
         this._taskName = _taskName;
     }
 
-    public Task(int _dateTask, String _taskName) {
-        this._dateTask = _dateTask;
+    public Task(int _completed, String _taskName) {
+        this._completed = _completed;
         this._taskName = _taskName;
     }
 
@@ -29,12 +26,12 @@ public class Task {
         this._id = _id;
     }
 
-    public int get_dateTask() {
-        return _dateTask;
+    public int get_completed() {
+        return _completed;
     }
 
-    public void set_dateTask(int _dateTask) {
-        this._dateTask = _dateTask;
+    public void set_completed(int _completed) {
+        this._completed = _completed;
     }
 
     public String get_taskName() {
