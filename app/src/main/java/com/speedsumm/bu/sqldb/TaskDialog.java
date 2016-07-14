@@ -37,21 +37,21 @@ public class TaskDialog extends AppCompatDialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.task_dialog,null);
-        final EditText taskName = (EditText)dialogView.findViewById(R.id.et_taskName);
-
-        builder.setView(dialogView)
-                .setPositiveButton("создать", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mListener.onDialogPositiveClick(TaskDialog.this,taskName.getText().toString());
-                    }
-                })
-                .setNegativeButton("отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                })
-                .setTitle("Введите наименование новой задачи");
+//        final EditText taskName = (EditText)dialogView.findViewById(R.id.et_taskName);
+//
+//        builder.setView(dialogView)
+//                .setPositiveButton("создать", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        mListener.onDialogPositiveClick(TaskDialog.this,taskName.getText().toString());
+//                    }
+//                })
+//                .setNegativeButton("отмена", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                    }
+//                })
+//                .setTitle("Введите наименование новой задачи");
         return builder.create();
 
 

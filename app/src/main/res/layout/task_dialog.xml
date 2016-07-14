@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Введите параметры новой задачи"
+        android:id="@+id/newTaskHeader"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_taskName"
-        android:hint="@string/NewTaskName"/>
+        android:id="@+id/taskHeader"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/newTaskHeader"
+        android:text="Наименование задачи"/>
 
-    <!--<CheckBox-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="completed"-->
-        <!--android:id="@+id/cb_taskCompleted" />-->
-</LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskBody"
+        android:text="Описание задачи"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/taskHeader"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Дата завершения"
+        android:id="@+id/expDateComment"
+        android:layout_below="@+id/taskBody"
+        android:padding="24dp"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/expDate"
+        android:layout_toRightOf="@+id/expDateComment"
+        android:layout_alignTop="@+id/expDateComment"
+        android:padding="24dp"
+        android:onClick="OnClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CREAT TASK"
+        android:id="@+id/btnNewTask"
+        android:layout_alignRight="@+id/expDate"
+        android:layout_below="@+id/expDate"
+        android:onClick="OnClick"/>
+</RelativeLayout>

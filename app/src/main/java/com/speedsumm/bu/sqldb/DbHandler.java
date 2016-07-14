@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -15,8 +16,12 @@ public class DbHandler extends SQLiteOpenHelper {
     public static final String DB_NAME = "TASK_DB";
     private static final String TABLE_NAME = "TASKS";
     private static final String ID_KEY = "ID";
-    private static final String COMPLETED_KEY = "COMPLETE_KEY";
+    private static final String COMPLETED_KEY = "COMPLETE_TASK";
     private static final String NAME_KEY = "NAME_TASK";
+    private static final String BODY_KEY = "BODY_TASK";
+    private static final String DATE_KEY = "EXPDATE_TASK";
+
+
     private static final String OpenTaskList = "SELECT * FROM " + TABLE_NAME + " WHERE " + COMPLETED_KEY + " IS NOT 1";
     private static final String CloseTaskList = "SELECT * FROM " + TABLE_NAME + " WHERE " + COMPLETED_KEY + " IS NOT 0";
     private String sql;
@@ -37,14 +42,18 @@ public class DbHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID_KEY + " INTEGER PRIMARY KEY, " + COMPLETED_KEY + " INTEGER DEFAULT 0, " + NAME_KEY + " TEXT)";
+
+
+        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID_KEY + " INTEGER PRIMARY KEY, " + COMPLETED_KEY + " INTEGER DEFAULT 0, " + NAME_KEY + " TEXT, " + BODY_KEY+ " TEXT, " + DATE_KEY+ " TEXT);";
+
+
         sqLiteDatabase.execSQL(CREATE_TASK_TABLE);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE " + TABLE_NAME);
     }
 
     public void addTask(Task task) {
@@ -53,6 +62,8 @@ public class DbHandler extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COMPLETED_KEY, task.get_completed());
         contentValues.put(NAME_KEY, task.get_taskName());
+        contentValues.put(BODY_KEY, task.get_taskBody());
+        contentValues.put(DATE_KEY, task.get_expDate());
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
         sqLiteDatabase.close();
@@ -73,6 +84,8 @@ public class DbHandler extends SQLiteOpenHelper {
             task.set_id(cursor.getInt(cursor.getColumnIndex(ID_KEY)));
             task.set_completed(cursor.getInt(cursor.getColumnIndex(COMPLETED_KEY)));
             task.set_taskName(cursor.getString(cursor.getColumnIndex(NAME_KEY)));
+            task.set_taskBody(cursor.getString(cursor.getColumnIndex(BODY_KEY)));
+            task.set_expDate(cursor.getString(cursor.getColumnIndex(DATE_KEY)));
             taskArrayList.add(task);
         }
         cursor.close();
@@ -101,6 +114,8 @@ public class DbHandler extends SQLiteOpenHelper {
             task.set_id(cursor.getInt(cursor.getColumnIndex(ID_KEY)));
             task.set_completed(cursor.getInt(cursor.getColumnIndex(COMPLETED_KEY)));
             task.set_taskName(cursor.getString(cursor.getColumnIndex(NAME_KEY)));
+            task.set_taskBody(cursor.getString(cursor.getColumnIndex(BODY_KEY)));
+            task.set_expDate(cursor.getString(cursor.getColumnIndex(DATE_KEY)));
             taskArrayList.add(task);
         }
         cursor.close();
