@@ -7,12 +7,16 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Введите параметры новой задачи"
         android:id="@+id/newTaskHeader"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:elegantTextHeight="false"
+        android:gravity="center"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -20,13 +24,13 @@
         android:id="@+id/taskHeader"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/newTaskHeader"
-        android:text="Наименование задачи"/>
+        android:hint="Наименование задачи"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/taskBody"
-        android:text="Описание задачи"
+        android:hint="Описание задачи"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/taskHeader"
         android:textSize="16sp"/>
@@ -43,7 +47,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="01.01.2016"
         android:id="@+id/expDate"
         android:layout_toRightOf="@+id/expDateComment"
         android:layout_alignTop="@+id/expDateComment"

@@ -1,4 +1,4 @@
-package com.speedsumm.bu.sqldb;
+package com.speedsumm.bu.sqldb1;
 
 import org.junit.Test;
 

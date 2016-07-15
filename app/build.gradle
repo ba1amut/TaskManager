@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.speedsumm.bu.sqldb"
+        applicationId "com.speedsumm.bu.sqldb1"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.+'
     compile 'com.android.support:design:24.0.0'
 
+    compile 'junit:junit:4.12'
 }
