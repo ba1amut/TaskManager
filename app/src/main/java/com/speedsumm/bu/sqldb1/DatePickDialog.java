@@ -25,6 +25,8 @@ public class DatePickDialog extends AppCompatDialogFragment implements android.a
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog dpd = new DatePickerDialog(getActivity(), this, year, month, dayOfMonth);
         dpd.setTitle("Введите дату завершения задачи");
+        dpd.setIcon(R.drawable.ic_today_black_48dp);
+
         return dpd;
     }
 

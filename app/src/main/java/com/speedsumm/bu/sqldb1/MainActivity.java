@@ -1,45 +1,55 @@
 package com.speedsumm.bu.sqldb1;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
-    TextView headerText;
-    DbHandler dbHandler;
+
+    public static DbHandler dbHandler;
+    public static String colorCompleted;
+    public static String colorDelete;
+    public static Resources res;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mlayoutManager;
-    public ArrayList<Task> taskArrayList;
+    public static ArrayList<Task> taskArrayList;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_activity);
+        setContentView(R.layout.activity_main);
         dbHandler = new DbHandler(this);
+        taskArrayList = new ArrayList<>();
+        taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
+        colorCompleted = getResources().getString(R.color.completedTask);
+        colorDelete = getResources().getString(R.color.deleteTask);
+        res = getResources();
 
-       taskArrayList = dbHandler.getAllTask();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
 
 
-
-        headerText = (TextView) findViewById(R.id.textView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,11 +69,14 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(taskArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
+
+        Drawable dividerDrawable = getDrawable(android.R.drawable.divider_horizontal_bright);
+        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(dividerDrawable);
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-
-
 
     }
 
@@ -71,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && data != null) {
             dbHandler.addTask(new Task(0, data.getStringExtra("taskName"), data.getStringExtra("taskBody"), data.getStringExtra("expDate")));
-            taskArrayList.add(new Task(0, data.getStringExtra("taskName"), data.getStringExtra("taskBody"), data.getStringExtra("expDate")));
+            taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
 
             mAdapter.notifyDataSetChanged();
 
@@ -79,29 +92,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.CompleteTask:
+                if (dbHandler.getTasksListFlag() == 0) {
+                    item.setTitle("Открытые задачи");
+                    dbHandler.setTasksListFlag(1);
+                    taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    item.setTitle("Закрытые задачи");
+                    dbHandler.setTasksListFlag(0);
+                    taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.SaveData:
+                SaveTasks();
+                break;
+            case R.id.deleteCompTask:
+                dbHandler.deleteCompletedTask();
+                if ( dbHandler.getTasksListFlag()==1){
+                    taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
+                }
+                mAdapter.notifyDataSetChanged();
+                break;
 
 
-
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.CompleteTask:
-//                if (dbHandler.getTasksListFlag() == 0) {
-//                    item.setTitle("Открытые задачи");
-//                    dbHandler.setTasksListFlag(1);
-//                    taskListUpdate();
-//                } else {
-//                    item.setTitle("Закрытые задачи");
-//                    dbHandler.setTasksListFlag(0);
-//                    taskListUpdate();
-//                }
-//                break;
-//            case R.id.SaveData:
-//                SaveTasks();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,23 +130,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-//    private void SaveTasks() {
-//        try {
-//            FileOutputStream fileOutputStream = openFileOutput("DBbackup.txt", Context.MODE_PRIVATE);
-//            ArrayList<Task> taskArrayList = dbHandler.getAllTask();
-//            for (int i = 0; i < taskArrayList.size(); i++) {
-//                fileOutputStream.write((taskArrayList.get(i).get_id() + "," + taskArrayList.get(i).get_taskName() + "," + taskArrayList.get(i).get_completed() + "\n").getBytes());
-//            }
-//            fileOutputStream.close();
-//
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
+    private void SaveTasks() {
+        try {
+            FileOutputStream fileOutputStream = openFileOutput("DBbackup.txt", Context.MODE_PRIVATE);
+            ArrayList<Task> taskArrayList = dbHandler.getAllTask();
+            for (int i = 0; i < taskArrayList.size(); i++) {
+                fileOutputStream.write((taskArrayList.get(i).get_id() + "," + taskArrayList.get(i).get_taskName() + "," + taskArrayList.get(i).get_completed() + "\n").getBytes());
+            }
+            fileOutputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 }
 

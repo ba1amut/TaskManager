@@ -1,32 +1,63 @@
 package com.speedsumm.bu.sqldb1;
 
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.support.v4.content.ContextCompat;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.TintTypedArray;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 /**
  * Created by bu on 15.07.2016.
  */
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
     private final ItemTouchHelperAdapter mAdapter;
     public static int position;
-    Context context;
+    private Paint paint = new Paint();
+
     public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         mAdapter = adapter;
-    }
 
+    }
 
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        viewHolder.itemView.setTranslationX(dX);
+        View itemView = viewHolder.itemView;
+
+        //Icon position block START
+        int iconBorderWidth = 6;
+        float height = itemView.getBottom() - itemView.getTop();
+        float iconBorder = height/iconBorderWidth;
+        //Icon position block END
+
+        if (MainActivity.dbHandler.getTasksListFlag()==0) {
+
+            if (dX > 0) {
+                paint.setColor(Color.parseColor(MainActivity.colorCompleted));
+                RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
+                c.drawRect(background, paint);
+                Bitmap icon = BitmapFactory.decodeResource(MainActivity.res,R.drawable.ic_done_white_48dp);
+                RectF icon_dest = new RectF((float)itemView.getLeft()+ iconBorder,(float)itemView.getTop()+iconBorder,(float)itemView.getLeft()+iconBorder*(iconBorderWidth-1),(float)itemView.getBottom()-iconBorder);
+                c.drawBitmap(icon , null,icon_dest,paint);
+
+
+            } else {
+                paint.setColor(Color.parseColor(MainActivity.colorDelete));
+                RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
+                c.drawRect(background, paint);
+                Bitmap icon = BitmapFactory.decodeResource(MainActivity.res,R.drawable.ic_delete_white_48dp);
+                RectF icon_dest = new RectF((float)itemView.getRight()-iconBorder*(iconBorderWidth-1),(float)itemView.getTop()+iconBorder,(float)itemView.getRight()-iconBorder,(float)itemView.getBottom()-iconBorder);
+                c.drawBitmap(icon , null,icon_dest,paint);
+            }
+        }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
-    //TODO понять и отрисовать структуру
 
 
     @Override
@@ -39,19 +70,23 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+
         return true;
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         position = viewHolder.getAdapterPosition();
+
         switch (direction){
             case ItemTouchHelper.START:
+                MainActivity.dbHandler.deleteTask(MainActivity.taskArrayList.get(viewHolder.getAdapterPosition()).get_id());
                 mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-                Log.d("...","Swipe to the left");
                 break;
+
             case ItemTouchHelper.END:
-                Log.d("...","Swipe to the left");
+                MainActivity.dbHandler.updateTask(MainActivity.taskArrayList.get(viewHolder.getAdapterPosition()).get_id());
+                mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
                 break;
         }
 
@@ -59,11 +94,16 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return true;
+        if (MainActivity.dbHandler.getTasksListFlag() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }
