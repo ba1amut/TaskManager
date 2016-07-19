@@ -3,24 +3,26 @@ package com.speedsumm.bu.sqldb1;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
@@ -36,11 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHandler = new DbHandler(this);
+        SQLiteDatabase sqLiteDatabase = dbHandler.getReadableDatabase();
+
         taskArrayList = new ArrayList<>();
         taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
         colorCompleted = getResources().getString(R.color.completedTask);
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         res = getResources();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {

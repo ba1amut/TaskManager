@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.speedsumm.bu.sqldb1">
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +18,14 @@
         </activity>
         <activity android:name=".NewTask">
 
+
         </activity>
+        <provider
+            android:authorities="com.speedsumm.bu.sqldb1.TaskProvider"
+            android:name=".TaskProvider"
+            android:exported="true"
+            android:enabled="true"/>
+
     </application>
 
 </manifest>

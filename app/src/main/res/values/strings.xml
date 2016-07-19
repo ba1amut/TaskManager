@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">SQLDB</string>
+    <string name="app_name">Simple Task</string>
     <string name="CompliteTask">Закрытые задачи</string>
-    <string name="SaveDats">Сохранить данные на диск</string>
+    <string name="SaveData">Сохранить данные на диск</string>
     <string name="LoadData">Загрузить данные с диска</string>
     <string name="ShareData">Поделиться..</string>
     <string name="NewTaskName">Введите наименование задачи</string>
