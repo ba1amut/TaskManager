@@ -21,7 +21,7 @@
 
         </activity>
         <provider
-            android:authorities="com.speedsumm.bu.sqldb1.TaskProvider"
+            android:authorities="com.speedsumm.bu"
             android:name=".TaskProvider"
             android:exported="true"
             android:enabled="true"/>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ public class DbHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
 
-        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID_KEY + " INTEGER PRIMARY KEY, " + COMPLETED_KEY + " INTEGER DEFAULT 0, " + NAME_KEY + " TEXT, " + BODY_KEY+ " TEXT, " + DATE_KEY+ " TEXT);";
+        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID_KEY + " INTEGER PRIMARY KEY, " + COMPLETED_KEY + " INTEGER DEFAULT 0, " + NAME_KEY + " TEXT, " + BODY_KEY + " TEXT, " + DATE_KEY + " TEXT);";
 
 
         sqLiteDatabase.execSQL(CREATE_TASK_TABLE);
@@ -60,7 +61,7 @@ public class DbHandler extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COMPLETED_KEY, task.get_completed());
         contentValues.put(NAME_KEY, task.get_taskName());
-        contentValues.put(BODY_KEY,task.get_taskBody());
+        contentValues.put(BODY_KEY, task.get_taskBody());
         contentValues.put(DATE_KEY, task.get_expDate());
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
@@ -97,9 +98,9 @@ public class DbHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteCompletedTask (){
+    public void deleteCompletedTask() {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.execSQL("DELETE FROM "+TABLE_NAME+" WHERE "+ COMPLETED_KEY+ "= 1");
+        sqLiteDatabase.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + COMPLETED_KEY + "= 1");
         sqLiteDatabase.close();
     }
 
@@ -128,4 +129,24 @@ public class DbHandler extends SQLiteOpenHelper {
         return taskArrayList;
     }
 
+    public Cursor DbAllTask() {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+    }
+
+    public Cursor DbOneTask(String id) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID_KEY + " = " + id, null);
+    }
+
+    public Cursor DbCompTask() {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COMPLETED_KEY + " = 1", null);
+    }
+
+    public long DbInsertTask(ContentValues contentValues){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+
+    }
 }

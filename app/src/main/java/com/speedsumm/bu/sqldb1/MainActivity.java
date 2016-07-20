@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
@@ -35,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mlayoutManager;
     public static ArrayList<Task> taskArrayList;
+    TaskProvider taskProvider;
 
 
 
@@ -44,13 +43,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHandler = new DbHandler(this);
-        SQLiteDatabase sqLiteDatabase = dbHandler.getReadableDatabase();
+
+
 
         taskArrayList = new ArrayList<>();
         taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
         colorCompleted = getResources().getString(R.color.completedTask);
         colorDelete = getResources().getString(R.color.deleteTask);
         res = getResources();
+        taskProvider = new TaskProvider();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
 
@@ -65,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Cursor cursor = dbHandler.DbAllTask();
+        while (cursor.moveToNext()) {
+            String TASK_NAME = cursor.getString(cursor.getColumnIndex("N_TASK"));
+            String TASK_BODY = cursor.getString(cursor.getColumnIndex("B_TASK"));
+            Log.d(".....", "NAme " + TASK_NAME + ", Body " + TASK_BODY);
+        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
