@@ -5,11 +5,11 @@ public class Task {
     public int _completed;
     public String _taskName;
     public String _taskBody;
-    public String _expDate;
+    public long _expDate;
 
     public Task() {}
 
-    public Task( int _completed,String _taskName, String _taskBody, String _expDate) {
+    public Task( int _completed,String _taskName, String _taskBody, long _expDate) {
 
         this._taskName = _taskName;
         this._taskBody = _taskBody;
@@ -49,11 +49,11 @@ public class Task {
         this._taskBody = _taskBody;
     }
 
-    public String get_expDate() {
+    public long get_expDate() {
         return _expDate;
     }
 
-    public void set_expDate(String _expDate) {
+    public void set_expDate(long _expDate) {
         this._expDate = _expDate;
     }
 }

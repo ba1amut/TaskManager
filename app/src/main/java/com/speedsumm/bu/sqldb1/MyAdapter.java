@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Created by bu on 14.07.2016.
@@ -44,9 +46,14 @@ public class MyAdapter extends android.support.v7.widget.RecyclerView.Adapter<My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.y\nHH:mm");
+
         holder.taskName.setText(taskArrayList.get(position).get_taskName());
         holder.taskBody.setText(taskArrayList.get(position).get_taskBody());
-        holder.expDate.setText(taskArrayList.get(position).get_expDate());
+
+        Date date = new Date(taskArrayList.get(position).get_expDate());
+        String srtDateTime = simpleDateFormat.format(date);
+        holder.expDate.setText(srtDateTime);
     }
 
     @Override

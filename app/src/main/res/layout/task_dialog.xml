@@ -7,59 +7,83 @@
 
 
     <TextView
+        android:id="@+id/newTaskHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Введите параметры новой задачи"
-        android:id="@+id/newTaskHeader"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:elegantTextHeight="false"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="Введите параметры новой задачи"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/taskHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/taskHeader"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/newTaskHeader"
-        android:hint="Наименование задачи"/>
+        android:hint="Наименование задачи" />
 
     <EditText
+        android:id="@+id/taskBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/taskBody"
-        android:hint="Описание задачи"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/taskHeader"
-        android:textSize="16sp"/>
+        android:hint="Описание задачи"
+        android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/expDateComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Дата завершения"
-        android:id="@+id/expDateComment"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/taskBody"
         android:padding="24dp"
-        android:layout_alignParentLeft="true"/>
+        android:text="Дата завершения" />
 
     <TextView
+        android:id="@+id/expDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="01.01.2016"
-        android:id="@+id/expDate"
-        android:layout_toRightOf="@+id/expDateComment"
         android:layout_alignTop="@+id/expDateComment"
+        android:layout_toRightOf="@+id/expDateComment"
+        android:onClick="OnClick"
         android:padding="24dp"
-        android:onClick="OnClick"/>
+        android:text="01.01.2016" />
+
+
+    <TextView
+        android:id="@+id/ExpTimeComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/expDateComment"
+        android:padding="24dp"
+        android:text="Время завершения" />
+
+    <TextView
+        android:id="@+id/expTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expDate"
+        android:layout_toEndOf="@+id/expDateComment"
+        android:layout_toRightOf="@+id/expDateComment"
+        android:onClick="OnClick"
+        android:padding="24dp"
+        android:text="01.01.2016" />
 
     <Button
+        android:id="@+id/btnNewTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="OnClick"
         android:text="CREAT TASK"
-        android:id="@+id/btnNewTask"
-        android:layout_alignRight="@+id/expDate"
-        android:layout_below="@+id/expDate"
-        android:onClick="OnClick"/>
+        android:layout_below="@+id/expTime"
+        android:layout_toEndOf="@+id/expDateComment"
+        android:layout_toRightOf="@+id/expDateComment" />
+
 </RelativeLayout>

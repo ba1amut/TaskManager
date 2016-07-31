@@ -33,8 +33,8 @@ public class DatePickDialog extends AppCompatDialogFragment implements android.a
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         TextView txt1 = (TextView) getActivity().findViewById(R.id.expDate);
-//        txt1.setText("Year: " + view.getYear() + " Month: " + view.getMonth());
         GregorianCalendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+        NewTask.expDatef = calendar.getTimeInMillis();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         txt1.setText(dateFormat.format(calendar.getTime()));
     }

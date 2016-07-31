@@ -1,5 +1,8 @@
 package com.speedsumm.bu.sqldb1;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -7,8 +10,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -16,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mlayoutManager;
     public static ArrayList<Task> taskArrayList;
     TaskProvider taskProvider;
+    static Handler mHandler;
 
 
 
@@ -52,6 +60,23 @@ public class MainActivity extends AppCompatActivity {
         colorDelete = getResources().getString(R.color.deleteTask);
         res = getResources();
         taskProvider = new TaskProvider();
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Toast.makeText(getBaseContext(), "Время настало", Toast.LENGTH_SHORT).show();
+                NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(MainActivity.this)
+                        .setSmallIcon(R.drawable.ic_delete_white_48dp)
+                        .setContentTitle("Test notification")
+                        .setContentText("Hello world");
+//                Intent resultIntent = new Intent(MainActivity.this,MainActivity.class);
+//                TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
+//                stackBuilder.addParentStack(MainActivity.class);
+                NotificationManager notificationManager = (NotificationManager)getSystemService(MainActivity.this.NOTIFICATION_SERVICE);
+                notificationManager.notify(1,mBuilder.build());
+
+            }
+        };
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
 
@@ -96,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && data != null) {
-            dbHandler.addTask(new Task(0, data.getStringExtra("taskName"), data.getStringExtra("taskBody"), data.getStringExtra("expDate")));
+            dbHandler.addTask(new Task(0, data.getStringExtra("taskName"), data.getStringExtra("taskBody"), data.getLongExtra("expDate",0)));
             taskArrayList = dbHandler.getAllOpenTask(taskArrayList);
 
             mAdapter.notifyDataSetChanged();

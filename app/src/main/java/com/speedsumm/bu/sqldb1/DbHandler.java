@@ -44,7 +44,7 @@ public class DbHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
 
-        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID_KEY + " INTEGER PRIMARY KEY, " + COMPLETED_KEY + " INTEGER DEFAULT 0, " + NAME_KEY + " TEXT, " + BODY_KEY + " TEXT, " + DATE_KEY + " TEXT);";
+        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID_KEY + " INTEGER PRIMARY KEY, " + COMPLETED_KEY + " INTEGER DEFAULT 0, " + NAME_KEY + " TEXT, " + BODY_KEY + " TEXT, " + DATE_KEY + " LONG);";
 
 
         sqLiteDatabase.execSQL(CREATE_TASK_TABLE);
@@ -85,7 +85,7 @@ public class DbHandler extends SQLiteOpenHelper {
             task.set_completed(cursor.getInt(cursor.getColumnIndex(COMPLETED_KEY)));
             task.set_taskName(cursor.getString(cursor.getColumnIndex(NAME_KEY)));
             task.set_taskBody(cursor.getString(cursor.getColumnIndex(BODY_KEY)));
-            task.set_expDate(cursor.getString(cursor.getColumnIndex(DATE_KEY)));
+            task.set_expDate(cursor.getLong(cursor.getColumnIndex(DATE_KEY)));
             taskArrayList.add(task);
         }
         cursor.close();
@@ -122,7 +122,7 @@ public class DbHandler extends SQLiteOpenHelper {
             task.set_completed(cursor.getInt(cursor.getColumnIndex(COMPLETED_KEY)));
             task.set_taskName(cursor.getString(cursor.getColumnIndex(NAME_KEY)));
             task.set_taskBody(cursor.getString(cursor.getColumnIndex(BODY_KEY)));
-            task.set_expDate(cursor.getString(cursor.getColumnIndex(DATE_KEY)));
+            task.set_expDate(cursor.getLong(cursor.getColumnIndex(DATE_KEY)));
             taskArrayList.add(task);
         }
         cursor.close();
