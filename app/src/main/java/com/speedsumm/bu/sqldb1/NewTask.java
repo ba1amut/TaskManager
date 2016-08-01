@@ -53,6 +53,7 @@ public class NewTask extends AppCompatActivity{
                 expTimeFinal = expDatef+expTimef+timeZone.getRawOffset();
                 Intent intentS = new Intent(getBaseContext(),MyService.class);
                 intentS.putExtra("endTime",expTimeFinal);
+                intentS.putExtra("taskName",taskName.getText().toString());
                 startService(intentS);
 
                 Intent intent = new Intent();

@@ -3,6 +3,7 @@ package com.speedsumm.bu.sqldb1;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -39,8 +40,11 @@ public class MyService extends Service{
                         }
                     }
                 }
+                Message msg = new Message();
+                msg.what = 0;
+                msg.obj = intent.getStringExtra("taskName");
                 Log.d(LOG, "Время настало");
-                MainActivity.mHandler.sendEmptyMessage(0);
+                MainActivity.mHandler.sendMessage(msg);
 
 //
             }

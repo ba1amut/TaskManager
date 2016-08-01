@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Task> taskArrayList;
     TaskProvider taskProvider;
     static Handler mHandler;
+    static int countNotify = 1;
 
 
 
@@ -67,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Время настало", Toast.LENGTH_SHORT).show();
                 NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(MainActivity.this)
                         .setSmallIcon(R.drawable.ic_delete_white_48dp)
-                        .setContentTitle("Test notification")
-                        .setContentText("Hello world");
+                        .setContentTitle("Проосрочено выполнение")
+                        .setContentText(msg.obj.toString());
 //                Intent resultIntent = new Intent(MainActivity.this,MainActivity.class);
 //                TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
 //                stackBuilder.addParentStack(MainActivity.class);
                 NotificationManager notificationManager = (NotificationManager)getSystemService(MainActivity.this.NOTIFICATION_SERVICE);
-                notificationManager.notify(1,mBuilder.build());
+                notificationManager.notify(countNotify++,mBuilder.build());
 
             }
         };
