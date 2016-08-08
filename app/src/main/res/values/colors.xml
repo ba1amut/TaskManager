@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="completedTask">#388e3c</color>
-    <color name="deleteTask">#d50000</color>
+    <color name="deleteTask">#bcff5252</color>
 </resources>

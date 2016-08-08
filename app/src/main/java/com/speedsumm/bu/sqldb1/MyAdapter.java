@@ -50,6 +50,9 @@ public class MyAdapter extends android.support.v7.widget.RecyclerView.Adapter<My
 
         holder.taskName.setText(taskArrayList.get(position).get_taskName());
         holder.taskBody.setText(taskArrayList.get(position).get_taskBody());
+        if (taskArrayList.get(position).get_expDate()<System.currentTimeMillis()){
+//            holder.itemView.setBackgroundColor(R.color.completedTask);
+        }
 
         Date date = new Date(taskArrayList.get(position).get_expDate());
         String srtDateTime = simpleDateFormat.format(date);

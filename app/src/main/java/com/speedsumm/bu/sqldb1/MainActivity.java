@@ -1,13 +1,10 @@
 package com.speedsumm.bu.sqldb1;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -43,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     TaskProvider taskProvider;
     static Handler mHandler;
     static int countNotify = 1;
+
 
 
 
@@ -116,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
+
+        MyListViewAdapter adapter = new MyListViewAdapter(this,taskArrayList);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(adapter);
 
     }
 

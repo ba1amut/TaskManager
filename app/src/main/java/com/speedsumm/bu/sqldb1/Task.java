@@ -2,10 +2,10 @@ package com.speedsumm.bu.sqldb1;
 
 public class Task {
     int _id;
-    public int _completed;
-    public String _taskName;
-    public String _taskBody;
-    public long _expDate;
+    private int _completed;
+    private String _taskName;
+    private String _taskBody;
+    private long _expDate;
 
     public Task() {}
 
