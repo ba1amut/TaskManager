@@ -39,6 +39,9 @@
                 android:resource="@xml/widget_metadata"></meta-data>
 
         </receiver>
+        <service
+            android:name=".WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

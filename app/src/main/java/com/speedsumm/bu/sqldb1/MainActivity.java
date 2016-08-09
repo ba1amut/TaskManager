@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     TaskProvider taskProvider;
     static Handler mHandler;
     static int countNotify = 1;
+    static Context context;
 
 
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHandler = new DbHandler(this);
+        context  = MainActivity.this;
 
 
 
@@ -116,9 +118,6 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
 
-        MyListViewAdapter adapter = new MyListViewAdapter(this,taskArrayList);
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(adapter);
 
     }
 
